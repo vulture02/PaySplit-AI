@@ -7,7 +7,7 @@ export default function Home() {
 
       <br />
       <Button > 
-        Submit
+        Click me 
       </Button>
     </div>
   );
