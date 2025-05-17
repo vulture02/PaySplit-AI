@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <link real="icon" href="/logos/logo-s.png" sizes="any" />
+       <link rel="icon" href="/logos/logo-s.png" sizes="any" />
       </head>
       <body className={`${inter.className}`}>
       
