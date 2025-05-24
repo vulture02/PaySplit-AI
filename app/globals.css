@@ -120,3 +120,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+@utility gradient {
+  @apply bg-gradient-to-r from-sky-500 to-blue-300;
+}
+
+@utility gradient-title {
+  @apply gradient font-extrabold tracking-tighter text-transparent bg-clip-text pb-1 pr-2;
+}

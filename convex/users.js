@@ -26,12 +26,12 @@ export const store = mutation({
       }
       return user._id;
     }
-    // If it's a new identity, create a new `User`.
+    // If it's a new identity, create a new User.
     return await ctx.db.insert("users", {
       name: identity.name ?? "Anonymous",
       tokenIdentifier: identity.tokenIdentifier,
       email: identity.email,
       imageUrl: identity.pictureUrl,
-    });
-  },
+    });
+  },
 });
