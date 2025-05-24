@@ -15,11 +15,11 @@ export default function Home() {
       <section className="mt-20 pb-12 space-y-10 md:space-y-15 px-5">
         <div className="container mx-auto px-4 md:px-6 text-center space-y-6">
           <Badge variant="outline" className="bg-sky-100 text-sky-700">
-            Split expenses. Simplify life.
+          Share costs. Stress less.
           </Badge>
 
           <h1 className="gradient-title mx-auto max-w-6xl text-4xl font-bold md:text-8xl">
-            The smartest way to split expenses with friends
+              Track, split, and settle up with friends - no stress, just simplicity.
           </h1>
 
           <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed">
@@ -93,7 +93,7 @@ export default function Home() {
       <section id="how-it-helps" className="py-20">
         <div className="container mx-auto px-4 md:px-6 text-center">
           <Badge variant="outline" className="bg-sky-100 text-sky-700">
-            How It helps
+            How It helps
           </Badge>
           <h2 className="gradient-title mt-2 text-3xl md:text-4xl">
             Splitting expenses has never been easier
@@ -168,7 +168,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="border-t bg-gray-50 py-12 text-center text-sm text-muted-foreground">
-        © {new Date().getFullYear()} Splitr. All rights reserved.
+        © {new Date().getFullYear()} Splendz. All rights reserved.
       </footer>
     </div>
   );
