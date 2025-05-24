@@ -23,7 +23,7 @@ export const store = mutation({
         q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-
+      
     if (user !== null) {
       // If we've seen this identity before but the name has changed, patch the value.
       if (user.name !== identity.name) {
@@ -31,13 +31,12 @@ export const store = mutation({
       }
       return user._id;
     }
-    
     // If it's a new identity, create a new User.
     return await ctx.db.insert("users", {
       name: identity.name ?? "Anonymous",
       tokenIdentifier: identity.tokenIdentifier,
       email: identity.email,
       imageUrl: identity.pictureUrl,
-    });
-  },
+    });
+  },
 });
