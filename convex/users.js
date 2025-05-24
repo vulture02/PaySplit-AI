@@ -8,6 +8,10 @@ export const store = mutation({
       throw new Error("Called storeUser without authentication present");
     }
 
+    if (!identity.email) {
+      throw new Error("User identity is missing email, cannot insert user.");
+    }
+
     // Check if we've already stored this identity before.
     // Note: If you don't want to define an index right away, you can use
     // ctx.db.query("users")
@@ -19,6 +23,7 @@ export const store = mutation({
         q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
+
     if (user !== null) {
       // If we've seen this identity before but the name has changed, patch the value.
       if (user.name !== identity.name) {
@@ -26,6 +31,7 @@ export const store = mutation({
       }
       return user._id;
     }
+    
     // If it's a new identity, create a new User.
     return await ctx.db.insert("users", {
       name: identity.name ?? "Anonymous",
