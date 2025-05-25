@@ -16,7 +16,7 @@ export const store = mutation({
     const name = identity.name ?? "Anonymous";
     const imageUrl = identity.pictureUrl ?? null;
 
-    console.log("User Identity:", identity);
+    //console.log("User Identity:", identity);
 
     const user = await ctx.db
       .query("users")

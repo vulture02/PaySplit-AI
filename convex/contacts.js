@@ -53,15 +53,14 @@ export const getAllContacts = query ({
         );
 
         const userGroups = (await ctx.db.query("groups").collect())
-            .filter((g) => g.members.some((m) => m.userId === currentUser._id)
+            .filter((g) => g.members.some((m) => m.userId === currentUser._id))
             .map((g) => ({
                 id: g._id,
                 name: g.name,
                 description: g.description,
                 memberCount: g.members.length,
                 type: "group",
-            }))
-        );
+            }));
 
         contactUsers.sort((a, b) => a?.name.localeCompare(b?.name));
         userGroups.sort((a, b) => a.name.localeCompare(b.name));
