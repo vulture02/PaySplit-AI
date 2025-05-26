@@ -14,7 +14,8 @@ export const store = mutation({
 
     // Optional fallback if name or imageUrl is missing
     const name = identity.name ?? "Anonymous";
-    const imageUrl = identity.pictureUrl ?? null;
+    const imageUrl = identity.pictureUrl ?? undefined;
+
 
     //console.log("User Identity:", identity);
 
