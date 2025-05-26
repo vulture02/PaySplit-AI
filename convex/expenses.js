@@ -1,4 +1,4 @@
-import {  query } from "./_generated/server";
+import { mutation , query } from "./_generated/server";
 import { v } from "convex/values";
 import { internal } from "./_generated/api";
 
@@ -99,5 +99,28 @@ export const getExpensesBetweenUsers = query({
           },
           balance,
         };
+    },
+});
+
+// Delete an expense
+export const deleteExpense = mutation({
+    args: {
+      expenseId: v.id("expenses"),
+    },
+    handler: async (ctx, args) => {
+      const user = await ctx.runQuery(internal.users.getCurrentUser);
+
+      const expense = await ctx.db.get(args.expenseId);
+      if (!expense) {
+        throw new Error("Expense not found");
+      }
+  
+      if (expense.createdBy !== user._id && expense.paidByUserId !== user._id) {
+        throw new Error("You don't have permission to delete this expense");
+      }
+   
+      await ctx.db.delete(args.expenseId);
+  
+      return { success: true };
     },
 });
