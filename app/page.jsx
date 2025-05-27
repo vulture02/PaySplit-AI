@@ -23,14 +23,13 @@ export default function Home() {
           </h1>
 
           <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed">
-            Track shared expenses, split bills effortlessly, and settle up
-            quickly. Never worry about who owes who again.
+              Easily track shared expenses, split bills with friends or roommates, and settle up instantly. With our app, you'll never have to worry about who owes what ever again.
           </p>
 
           <div className="flex flex-col items-center gap-4 sm:flex-row justify-center">
             <Button asChild size="lg" className="bg-sky-600 hover:bg-sky-700">
               <Link href="/dashboard">
-                Get Exploring <ArrowRight className="ml-2 h-4 w-4" />
+                  Start your journey—get exploring today! <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
             <Button
@@ -39,7 +38,7 @@ export default function Home() {
               size="lg"
               className="border-sky-600 text-sky-600 hover:bg-sky-50"
             >
-              <Link href="#how-it-works">See How It Works</Link>
+              <Link href="#how-it-works">See How It Helps</Link>
             </Button>
           </div>
         </div>
@@ -62,14 +61,13 @@ export default function Home() {
       <section id="specifications" className="bg-gray-50 py-20">
         <div className="container mx-auto px-4 md:px-6 text-center">
           <Badge variant="outline" className="bg-sky-100 text-sky-700">
-            Features
+            Specifications
           </Badge>
           <h2 className="gradient-title mt-2 text-3xl md:text-4xl">
-            Everything you need to split expenses
+              Simplify splitting expenses—everything you need in one place.
           </h2>
           <p className="mx-auto mt-3 max-w-[700px] text-gray-500 md:text-xl/relaxed">
-            Our platform provides all the tools you need to handle shared
-            expenses with ease.
+            Our platform provides a comprehensive suite of features to make managing shared expenses effortless. From tracking who owes what to settling up instantly, we’ve got you covered.
           </p>
 
           <div className="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -96,11 +94,10 @@ export default function Home() {
             How It helps
           </Badge>
           <h2 className="gradient-title mt-2 text-3xl md:text-4xl">
-            Splitting expenses has never been easier
+              Splitting expenses is now simpler, faster, and hassle-free.
           </h2>
           <p className="mx-auto mt-3 max-w-[700px] text-gray-500 md:text-xl/relaxed">
-            Follow these simple steps to start tracking and splitting expenses
-            with friends.
+              Just follow these simple steps to start tracking and splitting expenses with friends effortlessly
           </p>
 
           <div className="mx-auto mt-12 grid max-w-5xl gap-8 md:grid-cols-3">
@@ -124,7 +121,7 @@ export default function Home() {
             Testimonials
           </Badge>
           <h2 className="gradient-title mt-2 text-3xl md:text-4xl">
-            What our users are saying
+            Hear from our happy users
           </h2>
 
           <div className="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -153,14 +150,14 @@ export default function Home() {
       <section className="py-20 gradient">
         <div className="container mx-auto px-4 md:px-6 text-center space-y-6">
           <h2 className="text-3xl font-extrabold tracking-tight md:text-4xl text-white">
-            Ready to simplify expense sharing?
+            Ready to start sharing expenses the easy way?
           </h2>
           <p className="mx-auto max-w-[600px] text-sky-100 md:text-xl/relaxed">
-            Join thousands of users who have made splitting expenses stress‑free.
+            Join thousands already enjoying stress-free expense splitting.
           </p>
           <Button asChild size="lg" className="bg-sky-800 hover:opacity-90">
             <Link href="/dashboard">
-              Get Exploring <ArrowRight className="ml-2 h-4 w-4" />
+            Jump in and get exploring! <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
         </div>

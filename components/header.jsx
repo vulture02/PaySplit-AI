@@ -11,9 +11,6 @@ import { Button } from "./ui/button";
 import { LayoutDashboard } from "lucide-react";
 import { Authenticated, Unauthenticated } from "convex/react";
 
-
-
-
 const Header = () => {
 
   const { isLoading } = useStoreUser();
