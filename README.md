@@ -1,12 +1,9 @@
 # Splendz ✨ – AI-Enhanced Event Planner & Smart Budgeting
 
-![Splendz Hero](./public/splendz-hero.png)
 
-<p align="center">
-  <a href="https://splendz.vercel.app" target="_blank">
-    <img src="https://img.shields.io/badge/🚀 Launch%20App-brightgreen?style=for-the-badge&logo=vercel" alt="Launch App">
-  </a>
-</p>
+
+[![Launch App](./public/splendz-hero.png)](https://your-app-url.com)
+
 
 **Splendz** is a modern, AI-powered event planning and expense-sharing platform that makes organizing events—from casual hangouts to large parties—seamless and stress-free. With real-time coordination, intelligent budgeting, task tracking, and smart settlement features, Splendz helps you focus on the fun, not the fuss. Built with cutting-edge tech like Next.js, Convex, Gemini AI, and ShadCN UI, it delivers lightning-fast performance and a stunning UI across all devices.
 
