@@ -1,4 +1,4 @@
-# Splendz ✨ – AI-Enhanced Event Planner & Smart Budgeting
+# Splendz  – AI-Enhanced Event Planner & Smart Budgeting
 
 
 
@@ -9,25 +9,25 @@
 
 ---
 
-> 📌 **Effortless expense splitting meets the power of AI.**
+>  **Effortless expense splitting meets the power of AI.**
 
 ---
 
-## 🌟 Features
+##  Features
 
-🎉 **Event Creation & Management**: Plan events, add tasks, set budgets & assign roles.  
-📆 **Smart Scheduling Assistant**: Find the best date and time using AI-based suggestions.  
-💸 **Shared Budget & Expense Tracking**: Allocate budgets, track group expenses, and settle up easily.  
-🧠 **AI-Driven Recommendations**: Venue, task, and vendor suggestions based on your event type.  
-⚡ **Smart Debt Simplification**: One-click optimization to reduce transactions.  
-📊 **Analytics Dashboard**: Visualize tasks, expenses, and budget usage.  
-🔔 **AI-Generated Reminders**: Email & in-app alerts using RESEND.  
-👥 **Group Management**: Assign roles and track progress collaboratively.  
-📲 **Fully Responsive UI**: Beautiful on desktop, tablet, and mobile.
+ **Event Creation & Management**: Plan events, add tasks, set budgets & assign roles.  
+ **Smart Scheduling Assistant**: Find the best date and time using AI-based suggestions.  
+ **Shared Budget & Expense Tracking**: Allocate budgets, track group expenses, and settle up easily.  
+ **AI-Driven Recommendations**: Venue, task, and vendor suggestions based on your event type.  
+ **Smart Debt Simplification**: One-click optimization to reduce transactions.  
+ **Analytics Dashboard**: Visualize tasks, expenses, and budget usage.  
+ **AI-Generated Reminders**: Email & in-app alerts using RESEND.  
+ **Group Management**: Assign roles and track progress collaboratively.  
+ **Fully Responsive UI**: Beautiful on desktop, tablet, and mobile.
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Tech          | Description                              |
 |---------------|------------------------------------------|
@@ -43,7 +43,7 @@
 
 ---
 
-## 🧭 How It Works
+##  How It Works
 
 1. **Create an Event**: Set the name, date, and type of event.  
 2. **Invite Friends**: Add participants and assign roles.  
@@ -55,7 +55,7 @@
 
 ---
 
-## 🧪 Local Development
+##  Local Development
 
 ```bash
 # Clone the repo
@@ -73,7 +73,7 @@ npm run dev
 
 ---
 
-## 🔐 Environment Variables
+##  Environment Variables
 
 Create a `.env` file at the root and add:
 
@@ -97,11 +97,11 @@ RESEND_API_KEY=
 
 ---
 
-## 📬 Contact & Support
+##  Contact & Support
 
 Want to collaborate or suggest a feature? Open an issue or pull request!  
-📧 Email: sushanthbs766@gmail.com
+Email: sushanthbs766@gmail.com
 
 ---
 
-**Built with ❤️ by Sushanth and the Splendz team.**
+**Built by Sushanth and the Splendz team.**
