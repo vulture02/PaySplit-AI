@@ -23,7 +23,7 @@ export const sendEmail = action({
         text: args.text,
       });
 
-      //console.log("Email sent successfully:", result);
+      console.log("Email sent successfully:", result);
 
       return { success: true, id: result.id };
     } catch (error) {

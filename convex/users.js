@@ -1,61 +1,45 @@
 import { v } from "convex/values";
-import { mutation, query} from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { internal } from "./_generated/api";
 
 export const store = mutation({
   args: {},
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
-
     if (!identity) {
       throw new Error("Called storeUser without authentication present");
     }
-
-    // Optional fallback if email is missing
-    const email = identity.email ?? "unknown@no-email.com";
-
-    // Optional fallback if name or imageUrl is missing
-    const name = identity.name ?? "Anonymous";
-    const imageUrl = identity.pictureUrl ?? undefined;
-
-
-    //console.log("User Identity:", identity);
-
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier),
+        q.eq("tokenIdentifier", identity.tokenIdentifier)
       )
       .unique();
-
     if (user !== null) {
-      if (user.name !== name) {
-        await ctx.db.patch(user._id, { name });
+      if (user.name !== identity.name) {
+        await ctx.db.patch(user._id, { name: identity.name });
       }
       return user._id;
     }
-
     return await ctx.db.insert("users", {
-      name,
+      name: identity.name ?? "Anonymous",
       tokenIdentifier: identity.tokenIdentifier,
-      email,
-      imageUrl,
+      email: identity.email,
+      imageUrl: identity.pictureUrl,
     });
   },
 });
-
-export const getCurrentUser =query({
-  handler :async(ctx)=>{
+export const getCurrentUser = query({
+  handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
-
     if (!identity) {
-      throw new Error("Not authentication ");
+      throw new Error("Not authenticated");
     }
 
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier),
+        q.eq("tokenIdentifier", identity.tokenIdentifier)
       )
       .first();
 
@@ -72,27 +56,20 @@ export const searchUsers = query({
     query: v.string(),
   },
   handler: async (ctx, args) => {
-    // Use centralized getCurrentUser function
     const currentUser = await ctx.runQuery(internal.users.getCurrentUser);
-
-    // Don't search if query is too short
     if (args.query.length < 2) {
       return [];
     }
-
-    // Search by name using search index
     const nameResults = await ctx.db
       .query("users")
       .withSearchIndex("search_name", (q) => q.search("name", args.query))
       .collect();
 
-    // Search by email using search index
     const emailResults = await ctx.db
       .query("users")
       .withSearchIndex("search_email", (q) => q.search("email", args.query))
       .collect();
 
-    // Combine results (removing duplicates)
     const users = [
       ...nameResults,
       ...emailResults.filter(
@@ -100,7 +77,6 @@ export const searchUsers = query({
       ),
     ];
 
-    // Exclude current user and format results
     return users
       .filter((user) => user._id !== currentUser._id)
       .map((user) => ({

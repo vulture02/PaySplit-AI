@@ -102,8 +102,6 @@ export const getUserBalances = query({
   },
 });
 
-// This code defines a query to get user balances, including individual expenses and settlements without group context.
-// It calculates how much the user owes and how much is owed to them, providing detailed lists for the UI.
 
 // Get total spent in the current year
 export const getTotalSpent = query({
@@ -143,8 +141,6 @@ export const getTotalSpent = query({
     },
 });
 
-// This code defines a query to get the total amount spent by the user in the current year.
-// It filters expenses based on the current year and calculates the total amount spent by the user, including their splits in shared expenses.
 
 // Get total spent in the current month
 export const getMonthlySpending = query({
@@ -208,8 +204,6 @@ export const getMonthlySpending = query({
         return result;
     },
 });
-// This code defines a query to get the total amount spent by the user in each month of the current year.
-// It filters expenses based on the current year and calculates the total amount spent by the user in each month, including their splits in shared expenses.
 
 
 // Get groups for the current user
@@ -291,8 +285,4 @@ export const getUserGroups = query({
     },
 });
 
-// This code defines a query to get all groups the current user is a member of.
-// It calculates the balance for each group, considering both expenses and settlements.
-// It returns an array of groups with their details and the user's balance in each group.
-// This code is part of a Convex backend service that provides various queries related to user balances, expenses, and groups.
 
