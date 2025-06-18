@@ -1,25 +1,21 @@
 import { query } from "./_generated/server";
 import { v } from "convex/values";
 
-
 export const getUsersWithOutstandingDebts = query({
   handler: async (ctx) => {
     const users = await ctx.db.query("users").collect();
     const result = [];
 
-    
     const expenses = await ctx.db
       .query("expenses")
       .filter((q) => q.eq(q.field("groupId"), undefined))
       .collect();
 
-    
     const settlements = await ctx.db
       .query("settlements")
       .filter((q) => q.eq(q.field("groupId"), undefined))
       .collect();
 
-   
     const userCache = new Map();
     const getUser = async (id) => {
       if (!userCache.has(id)) userCache.set(id, await ctx.db.get(id));
@@ -30,7 +26,6 @@ export const getUsersWithOutstandingDebts = query({
     
       const ledger = new Map();
 
-      
       for (const exp of expenses) {
         
         if (exp.paidByUserId !== user._id) {
@@ -48,7 +43,6 @@ export const getUsersWithOutstandingDebts = query({
           ledger.set(exp.paidByUserId, entry);
         }
 
-       
         else {
           for (const s of exp.splits) {
             if (s.userId === user._id || s.paid) continue;
@@ -63,9 +57,7 @@ export const getUsersWithOutstandingDebts = query({
         }
       }
 
-      
       for (const st of settlements) {
-        
         if (st.paidByUserId === user._id) {
           const entry = ledger.get(st.receivedByUserId);
           if (entry) {
@@ -74,7 +66,6 @@ export const getUsersWithOutstandingDebts = query({
             else ledger.set(st.receivedByUserId, entry);
           }
         }
-        
         else if (st.receivedByUserId === user._id) {
           const entry = ledger.get(st.paidByUserId);
           if (entry) {
@@ -85,7 +76,6 @@ export const getUsersWithOutstandingDebts = query({
         }
       }
 
-      
       const debts = [];
       for (const [counterId, { amount, since }] of ledger) {
         if (amount > 0) {
