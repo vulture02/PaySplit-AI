@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -13,8 +13,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import  ParticipantSelector  from "./participant-selector";
 import  GroupSelector  from "./group-selector";
-import  CategorySelector from "./category-selector";
-import  SplitSelector  from "./split-selector";
+import  CategorySelector  from "./category-selector";
+import  SplitSelector from "./split-selector";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import {
@@ -26,127 +26,130 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { getAllCategories } from "@/lib/expense-categories";
 
+// Form schema validation
 const expenseSchema = z.object({
-    description: z.string().min(1, "Description is required"),
-    amount: z
-      .string()
-      .min(1, "Amount is required")
-      .refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) > 0, {
-        message: "Amount must be a positive number",
-      }),
-    category: z.string().optional(),
-    date: z.date(),
-    paidByUserId: z.string().min(1, "Payer is required"),
-    splitType: z.enum(["equal", "percentage", "exact"]),
-    groupId: z.string().optional(),
-  });
+  description: z.string().min(1, "Description is required"),
+  amount: z
+    .string()
+    .min(1, "Amount is required")
+    .refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) > 0, {
+      message: "Amount must be a positive number",
+    }),
+  category: z.string().optional(),
+  date: z.date(),
+  paidByUserId: z.string().min(1, "Payer is required"),
+  splitType: z.enum(["equal", "percentage", "exact"]),
+  groupId: z.string().optional(),
+});
 
-const ExpenseForm = ({type = "individual", onSuccess}) => {
-  const [participants, setParticipants] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedGroup, setSelectedGroup] = useState(null);
-  const [splits, setSplits] = useState([]);
+const ExpenseForm = ({ type = "individual", onSuccess }) => {
+    const [participants, setParticipants] = useState([]);
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selectedGroup, setSelectedGroup] = useState(null);
+    const [splits, setSplits] = useState([]);
   
-  // Mutations and queries
-  const { data: currentUser } = useConvexQuery(api.users.getCurrentUser);
-  const createExpense = useConvexMutation(api.expenses.createExpense);
-  const categories = getAllCategories();
+    // Mutations and queries
+    const { data: currentUser } = useConvexQuery(api.users.getCurrentUser);
   
-  // Set up form with validation
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm({
-    resolver: zodResolver(expenseSchema),
-    defaultValues: {
-      description: "",
-      amount: "",
-      category: "",
-      date: new Date(),
-      paidByUserId: currentUser?._id || "",
-      splitType: "equal",
-      groupId: undefined,
-    },
-  });
+    const createExpense = useConvexMutation(api.expenses.createExpense);
+    const categories = getAllCategories();
   
-  // Watch for changes
-  const amountValue = watch("amount");
-  const paidByUserId = watch("paidByUserId");
+    // Set up form with validation
+    const {
+      register,
+      handleSubmit,
+      setValue,
+      watch,
+      reset,
+      formState: { errors, isSubmitting },
+    } = useForm({
+      resolver: zodResolver(expenseSchema),
+      defaultValues: {
+        description: "",
+        amount: "",
+        category: "",
+        date: new Date(),
+        paidByUserId: currentUser?._id || "",
+        splitType: "equal",
+        groupId: undefined,
+      },
+    });
   
-  // When a user is added or removed, update the participant list
-  useEffect(() => {
-    if (participants.length === 0 && currentUser) {
-      setParticipants([
-        {
-          id: currentUser._id,
-          name: currentUser.name,
-          email: currentUser.email,
-          imageUrl: currentUser.imageUrl,
-        },
-      ]);
-    }
-  }, [currentUser, participants]);
-  // Handle form submission
-  const onSubmit = async (data) => {
-    try {
-      const amount = parseFloat(data.amount);
-
-      // Prepare splits in the format expected by the API
-      const formattedSplits = splits.map((split) => ({
-        userId: split.userId,
-        amount: split.amount,
-        paid: split.userId === data.paidByUserId,
-      }));
-
-      // Validate that splits add up to the total (with small tolerance)
-      const totalSplitAmount = formattedSplits.reduce(
-        (sum, split) => sum + split.amount,
-        0
-      );
-      const tolerance = 0.01;
-
-      if (Math.abs(totalSplitAmount - amount) > tolerance) {
-        toast.error(
-          `Split amounts don't add up to the total. Please adjust your splits.`
-        );
-        return;
+    // Watch for changes
+    const amountValue = watch("amount");
+    const paidByUserId = watch("paidByUserId");
+  
+    // When a user is added or removed, update the participant list
+    useEffect(() => {
+      if (participants.length === 0 && currentUser) {
+        // Always add the current user as a participant
+        setParticipants([
+          {
+            id: currentUser._id,
+            name: currentUser.name,
+            email: currentUser.email,
+            imageUrl: currentUser.imageUrl,
+          },
+        ]);
       }
-
-      // For 1:1 expenses, set groupId to undefined instead of empty string
-      const groupId = type === "individual" ? undefined : data.groupId;
-
-      // Create the expense
-      await createExpense.mutate({
-        description: data.description,
-        amount: amount,
-        category: data.category || "Other",
-        date: data.date.getTime(), // Convert to timestamp
-        paidByUserId: data.paidByUserId,
-        splitType: data.splitType,
-        splits: formattedSplits,
-        groupId,
-      });
-
-      toast.success("Expense created successfully!");
-      reset(); // Reset form
-
-      const otherParticipant = participants.find(
-        (p) => p.id !== currentUser._id
-      );
-      const otherUserId = otherParticipant?.id;
-
-      if (onSuccess) onSuccess(type === "individual" ? otherUserId : groupId);
-    } catch (error) {
-      toast.error("Failed to create expense: " + error.message);
-    }
-  };
-
-  if (!currentUser) return null;
-
+    }, [currentUser, participants]);
+  
+    // Handle form submission
+    const onSubmit = async (data) => {
+      try {
+        const amount = parseFloat(data.amount);
+  
+        // Prepare splits in the format expected by the API
+        const formattedSplits = splits.map((split) => ({
+          userId: split.userId,
+          amount: split.amount,
+          paid: split.userId === data.paidByUserId,
+        }));
+  
+        // Validate that splits add up to the total (with small tolerance)
+        const totalSplitAmount = formattedSplits.reduce(
+          (sum, split) => sum + split.amount,
+          0
+        );
+        const tolerance = 0.01;
+  
+        if (Math.abs(totalSplitAmount - amount) > tolerance) {
+          toast.error(
+            `Split amounts don't add up to the total. Please adjust your splits.`
+          );
+          return;
+        }
+  
+        // For 1:1 expenses, set groupId to undefined instead of empty string
+        const groupId = type === "individual" ? undefined : data.groupId;
+  
+        // Create the expense
+        await createExpense.mutate({
+          description: data.description,
+          amount: amount,
+          category: data.category || "Other",
+          date: data.date.getTime(), // Convert to timestamp
+          paidByUserId: data.paidByUserId,
+          splitType: data.splitType,
+          splits: formattedSplits,
+          groupId,
+        });
+  
+        toast.success("Expense created successfully!");
+        reset(); // Reset form
+  
+        const otherParticipant = participants.find(
+          (p) => p.id !== currentUser._id
+        );
+        const otherUserId = otherParticipant?.id;
+  
+        if (onSuccess) onSuccess(type === "individual" ? otherUserId : groupId);
+      } catch (error) {
+        toast.error("Failed to create expense: " + error.message);
+      }
+    };
+  
+    if (!currentUser) return null;
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="space-y-4">
@@ -359,4 +362,4 @@ const ExpenseForm = ({type = "individual", onSuccess}) => {
   );
 }
 
-export default ExpenseForm
+export default ExpenseForm;
